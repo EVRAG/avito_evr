@@ -12,6 +12,10 @@ download_directory = 'downloaded_files'
 if not os.path.exists(download_directory):
     os.makedirs(download_directory)
 
+download_directory = 'downloads'
+if not os.path.exists(download_directory):
+    os.makedirs(download_directory)
+
 # Список миссий для проверки
 missions = ['mission1', 'mission2', 'mission3', 'mission4', 'mission5']
 completed_missions = set()

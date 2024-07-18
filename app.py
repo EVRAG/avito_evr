@@ -13,6 +13,14 @@ dispatcher = Dispatcher(bot, None, use_context=True)
 
 telegram_bot = TelegramBot(dispatcher)
 
+download_directory = 'downloads'
+if not os.path.exists(download_directory):
+    os.makedirs(download_directory)
+
+download_directory = 'downloaded_files'
+if not os.path.exists(download_directory):
+    os.makedirs(download_directory)
+
 
 @app.route('/status/<mission>', methods=['GET'])
 def get_status(mission):
