@@ -13,7 +13,7 @@ if not os.path.exists(download_directory):
     os.makedirs(download_directory)
 
 # Список миссий для проверки
-missions = ['mission1', 'mission2', 'mission3']
+missions = ['mission1', 'mission2', 'mission3', 'mission4', 'mission5', 'mission6', 'mission7', 'mission8', 'mission9', 'mission10']
 completed_missions = set()
 
 # Настройки UDP
