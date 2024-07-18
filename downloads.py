@@ -3,7 +3,7 @@ import time
 import requests
 
 # URL вашего Flask сервера
-base_url = 'http://0.0.0.0:6000'
+base_url = 'https://avito-evr.onrender.com'
 
 # Директория для сохранения скачанных файлов
 download_directory = 'downloaded_files'

@@ -79,7 +79,7 @@ class TelegramBot:
                 response_text = self.send_image_to_openai(image_path)
                 self.logger.log_message(f'Пришел ответ OpenAI', 'info')
                 results[image_name] = response_text
-                self.logger.log_message(f'OpenAI вернул ответ', 'info')
+                self.logger.log_message(f'OpenAI вернул ответ {response_text}', 'info')
                 # update.message.reply_text(f'OpenAI вернул ответ')
             
             results_path = os.path.join('downloads', f'{self.current_command}_results.json')
@@ -131,6 +131,9 @@ class TelegramBot:
 
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
         response_json = response.json()
+
+        if 'choices' not in response_json:
+            self.logger.log_message(f'Ошибка при обработке PDF файла: {response_json}', 'error')
 
         return response_json['choices'][0]['message']['content'] if 'choices' in response_json else 'Ошибка получения ответа от API'
 
