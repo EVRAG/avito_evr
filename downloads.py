@@ -1,6 +1,8 @@
 import os
 import time
 import requests
+import socket
+import json
 
 # URL вашего Flask сервера
 base_url = 'https://avito-evr.onrender.com'
@@ -13,6 +15,14 @@ if not os.path.exists(download_directory):
 # Список миссий для проверки
 missions = ['mission1', 'mission2', 'mission3']
 completed_missions = set()
+
+# Настройки UDP
+UDP_IP = "127.0.0.1"  # IP-адрес назначения
+UDP_PORT = 7015       # Порт назначения
+
+def send_udp_message(message):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Создание UDP сокета
+    sock.sendto(message.encode('utf-8'), (UDP_IP, UDP_PORT))  # Отправка сообщения
 
 def check_and_download_files(mission):
     # Получение списка файлов для миссии
@@ -42,10 +52,30 @@ def check_and_download_files(mission):
             
             # Добавляем миссию в завершенные
             completed_missions.add(mission)
+            # Отправка статуса по UDP
+            status_message = json.dumps({
+                "mission": mission.capitalize(),
+                "status": "completed",
+                "files": files
+            })
+            send_udp_message(status_message)
         else:
             print(f"Статус {mission}: {data['status']}")
+            # Отправка статуса по UDP
+            status_message = json.dumps({
+                "mission": mission.capitalize(),
+                "status": data['status']
+            })
+            send_udp_message(status_message)
     else:
         print(f"Ошибка при получении файлов для {mission}: {response.status_code}, {response.text}")
+        # Отправка статуса по UDP при ошибке
+        status_message = json.dumps({
+            "mission": mission.capitalize(),
+            "status": "error",
+            "details": response.text
+        })
+        send_udp_message(status_message)
 
 def main():
     while True:

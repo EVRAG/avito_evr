@@ -69,7 +69,7 @@ class TelegramBot:
             for page_num in range(len(doc)):
                 page = doc.load_page(page_num)
                 pix = page.get_pixmap()
-                image_name = f'{self.current_command}_{page_num + 1:02}.jpg'
+                image_name = f'{self.current_command}_{page_num + 1}.jpg'
                 image_path = os.path.join('downloads', image_name)
                 pix.save(image_path)
                 # update.message.reply_text(f'Сохранена страница {page_num + 1} из {len(doc)}')
