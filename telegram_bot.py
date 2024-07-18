@@ -104,7 +104,7 @@ class TelegramBot:
         self.logger.log_message('Ушел запрос на OpenAI', 'info')
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {config.OPENAI_API_KEY}"
+            "Authorization": f"Bearer {os.environ.get('OPENAI_KEY')}"
         }
 
         payload = {
