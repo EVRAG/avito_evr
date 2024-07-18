@@ -22,6 +22,13 @@ class TelegramBot:
         self.dispatcher.add_handler(CommandHandler("mission1", self.set_mission1))
         self.dispatcher.add_handler(CommandHandler("mission2", self.set_mission2))
         self.dispatcher.add_handler(CommandHandler("mission3", self.set_mission3))
+        self.dispatcher.add_handler(CommandHandler("mission4", self.set_mission4))
+        self.dispatcher.add_handler(CommandHandler("mission5", self.set_mission5))
+        self.dispatcher.add_handler(CommandHandler("mission6", self.set_mission6))
+        self.dispatcher.add_handler(CommandHandler("mission7", self.set_mission7))
+        self.dispatcher.add_handler(CommandHandler("mission8", self.set_mission8))
+        self.dispatcher.add_handler(CommandHandler("mission9", self.set_mission9))
+        self.dispatcher.add_handler(CommandHandler("mission10", self.set_mission10))
 
         self.dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, self.log_all_messages))
         self.dispatcher.add_handler(MessageHandler(Filters.document.mime_type("application/pdf"), self.handle_pdf))
@@ -40,6 +47,34 @@ class TelegramBot:
     def set_mission3(self, update: Update, context: CallbackContext) -> None:
         self.current_command = 'mission3'
         update.message.reply_text('Миссия 3 выбрана. Пожалуйста, отправьте PDF файл.')
+    
+    def set_mission4(self, update: Update, context: CallbackContext) -> None:
+        self.current_command = 'mission4'
+        update.message.reply_text('Миссия 4 выбрана. Пожалуйста, отправьте PDF файл.')
+    
+    def set_mission5(self, update: Update, context: CallbackContext) -> None:
+        self.current_command = 'mission5'
+        update.message.reply_text('Миссия 5 выбрана. Пожалуйста, отправьте PDF файл.')
+
+    def set_mission6(self, update: Update, context: CallbackContext) -> None:
+        self.current_command = 'mission6'
+        update.message.reply_text('Миссия 6 выбрана. Пожалуйста, отправьте PDF файл.')
+
+    def set_mission7(self, update: Update, context: CallbackContext) -> None:
+        self.current_command = 'mission7'
+        update.message.reply_text('Миссия 7 выбрана. Пожалуйста, отправьте PDF файл.')
+
+    def set_mission8(self, update: Update, context: CallbackContext) -> None:
+        self.current_command = 'mission8'
+        update.message.reply_text('Миссия 8 выбрана. Пожалуйста, отправьте PDF файл.')
+
+    def set_mission9(self, update: Update, context: CallbackContext) -> None:
+        self.current_command = 'mission9'
+        update.message.reply_text('Миссия 9 выбрана. Пожалуйста, отправьте PDF файл.')
+    
+    def set_mission10(self, update: Update, context: CallbackContext) -> None:
+        self.current_command = 'mission10'
+        update.message.reply_text('Миссия 10 выбрана. Пожалуйста, отправьте PDF файл.')
 
     def handle_pdf(self, update: Update, context: CallbackContext) -> None:
         if not self.current_command:
