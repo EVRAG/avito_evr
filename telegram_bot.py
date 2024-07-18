@@ -13,7 +13,7 @@ class TelegramBot:
     def __init__(self, dispatcher):
         self.current_command = None
         self.current_status = {}
-        self.missionlist = ['mission1', 'mission2','mission3','mission4','mission5','mission6','mission7','mission8','mission9','mission10']
+        self.missionlist = ['mission1', 'mission2','mission3','mission4','mission5']
 
         self.logger = CustomLogger()
         self.dispatcher = dispatcher
@@ -24,11 +24,6 @@ class TelegramBot:
         self.dispatcher.add_handler(CommandHandler("mission3", self.set_mission3))
         self.dispatcher.add_handler(CommandHandler("mission4", self.set_mission4))
         self.dispatcher.add_handler(CommandHandler("mission5", self.set_mission5))
-        self.dispatcher.add_handler(CommandHandler("mission6", self.set_mission6))
-        self.dispatcher.add_handler(CommandHandler("mission7", self.set_mission7))
-        self.dispatcher.add_handler(CommandHandler("mission8", self.set_mission8))
-        self.dispatcher.add_handler(CommandHandler("mission9", self.set_mission9))
-        self.dispatcher.add_handler(CommandHandler("mission10", self.set_mission10))
 
         self.dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, self.log_all_messages))
         self.dispatcher.add_handler(MessageHandler(Filters.document.mime_type("application/pdf"), self.handle_pdf))
@@ -56,25 +51,6 @@ class TelegramBot:
         self.current_command = 'mission5'
         update.message.reply_text('Миссия 5 выбрана. Пожалуйста, отправьте PDF файл.')
 
-    def set_mission6(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission6'
-        update.message.reply_text('Миссия 6 выбрана. Пожалуйста, отправьте PDF файл.')
-
-    def set_mission7(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission7'
-        update.message.reply_text('Миссия 7 выбрана. Пожалуйста, отправьте PDF файл.')
-
-    def set_mission8(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission8'
-        update.message.reply_text('Миссия 8 выбрана. Пожалуйста, отправьте PDF файл.')
-
-    def set_mission9(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission9'
-        update.message.reply_text('Миссия 9 выбрана. Пожалуйста, отправьте PDF файл.')
-    
-    def set_mission10(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission10'
-        update.message.reply_text('Миссия 10 выбрана. Пожалуйста, отправьте PDF файл.')
 
     def handle_pdf(self, update: Update, context: CallbackContext) -> None:
         if not self.current_command:
@@ -116,6 +92,13 @@ class TelegramBot:
                 results[image_name] = response_text
                 self.logger.log_message(f'OpenAI вернул ответ {response_text}', 'info')
                 # update.message.reply_text(f'OpenAI вернул ответ')
+
+            #### ВОТ ТУТ ДОБАВИТЬ ДОБАВЛЕНИЕ В JSON ДОПОЛНИТЕЛЬНЫЕ ШТУКИ, ЧТОБЫ ЕСЛИ ФОТОК МЕНЬШЕ - ТО БЫЛО ОТКУДА ВЗЯТЬ ПРОМПТЫ
+            if len(results) < 8:
+                for i in range(8 - len(results)):
+                    results[f'{self.current_command}_{len(results) + 1}'] = f'TEST+PROMPT'
+            
+            #### СНАЧАЛА УЗНАТЬ ТЕКУЩУЮ ДЛИНУ СЛОВАРЯ И ЗАТЕМ ДОБИТЬ ЕГО ДО КОЛ-ВА НУЖНОГО
             
             results_path = os.path.join('downloads', f'{self.current_command}_results.json')
             with open(results_path, 'w') as json_file:
