@@ -72,7 +72,6 @@ class TelegramBot:
         self.logger.log_message('Запущен парсинг страниц', 'info')
         threading.Thread(target=self.process_pdf, args=(pdf_path, document_file.file_id)).start()
         self.logger.log_message(f'---------- STATUSES {self.current_status}', 'info')
-        update.message.reply_text('Парсинг закончен')
 
     def process_pdf(self, pdf_path, file_id):
         results = {}
@@ -84,6 +83,7 @@ class TelegramBot:
                 image_name = f'{self.current_command}_{page_num + 1}.jpg'
                 image_path = os.path.join('downloads', image_name)
                 pix.save(image_path)
+                self.current_status[self.current_command] = f'Start process for page {page_num + 1} in PDF'
                 # update.message.reply_text(f'Сохранена страница {page_num + 1} из {len(doc)}')
                 self.logger.log_message(f'Сохранена страница {page_num + 1} из {len(doc)}', 'info')
 
@@ -92,6 +92,8 @@ class TelegramBot:
                 self.logger.log_message(f'Пришел ответ OpenAI', 'info')
                 results[image_name] = response_text
                 self.logger.log_message(f'OpenAI вернул ответ {response_text}', 'info')
+
+                self.current_status[self.current_command] = f'End process for page {page_num + 1} in PDF'
                 # update.message.reply_text(f'OpenAI вернул ответ')
 
             #### ВОТ ТУТ ДОБАВИТЬ ДОБАВЛЕНИЕ В JSON ДОПОЛНИТЕЛЬНЫЕ ШТУКИ, ЧТОБЫ ЕСЛИ ФОТОК МЕНЬШЕ - ТО БЫЛО ОТКУДА ВЗЯТЬ ПРОМПТЫ
@@ -106,6 +108,7 @@ class TelegramBot:
                 json.dump(results, json_file, ensure_ascii=False, indent=4)
             
             self.current_status[self.current_command] = 'completed'
+            self.logger.log_message(f'---------- STATUSES {self.current_status}', 'info')
         except Exception as e:
             self.current_status[self.current_command] = f'error: {e}'
             self.logger.log_message(f'Ошибка при обработке PDF файла: {e}', 'info')
