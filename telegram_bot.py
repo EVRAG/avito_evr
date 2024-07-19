@@ -108,6 +108,7 @@ class TelegramBot:
         except Exception as e:
             self.current_status[self.current_command] = f'error: {e}'
             self.logger.log_message(f'Ошибка при обработке PDF файла: {e}', 'info')
+            self.current_status[self.current_command] = 'error'
             # update.message.reply_text(f'Ошибка при обработке PDF файла: {e}')
 
     def clean_up_previous_files(self, command):
