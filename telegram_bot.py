@@ -13,7 +13,7 @@ class TelegramBot:
     def __init__(self, dispatcher):
         self.current_command = None
         self.current_status = {}
-        self.missionlist = ['mission1', 'mission2','mission3','mission4','mission5']
+        self.missionlist = ['Mission1', 'Mission2','Mission3','Mission4','Mission5']
 
         self.logger = CustomLogger()
         self.dispatcher = dispatcher
@@ -32,23 +32,23 @@ class TelegramBot:
         update.message.reply_text('Привет! Я ваш бот.')
 
     def set_mission1(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission1'
+        self.current_command = 'Mission1'
         update.message.reply_text('Миссия 1 выбрана. Пожалуйста, отправьте PDF файл.')
 
     def set_mission2(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission2'
+        self.current_command = 'Mission2'
         update.message.reply_text('Миссия 2 выбрана. Пожалуйста, отправьте PDF файл.')
 
     def set_mission3(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission3'
+        self.current_command = 'Mission3'
         update.message.reply_text('Миссия 3 выбрана. Пожалуйста, отправьте PDF файл.')
     
     def set_mission4(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission4'
+        self.current_command = 'Mission4'
         update.message.reply_text('Миссия 4 выбрана. Пожалуйста, отправьте PDF файл.')
     
     def set_mission5(self, update: Update, context: CallbackContext) -> None:
-        self.current_command = 'mission5'
+        self.current_command = 'Mission5'
         update.message.reply_text('Миссия 5 выбрана. Пожалуйста, отправьте PDF файл.')
 
 
@@ -71,6 +71,7 @@ class TelegramBot:
         update.message.reply_text('Запущен парсинг страниц')
         self.logger.log_message('Запущен парсинг страниц', 'info')
         threading.Thread(target=self.process_pdf, args=(pdf_path, document_file.file_id)).start()
+        self.logger.log_message(f'---------- STATUSES {self.current_status}', 'info')
         update.message.reply_text('Парсинг закончен')
 
     def process_pdf(self, pdf_path, file_id):
@@ -109,6 +110,7 @@ class TelegramBot:
             self.current_status[self.current_command] = f'error: {e}'
             self.logger.log_message(f'Ошибка при обработке PDF файла: {e}', 'info')
             self.current_status[self.current_command] = 'error'
+            self.logger.log_message(f'---------- STATUSES {self.current_status}', 'info')
             # update.message.reply_text(f'Ошибка при обработке PDF файла: {e}')
 
     def clean_up_previous_files(self, command):
