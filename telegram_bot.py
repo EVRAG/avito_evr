@@ -99,7 +99,7 @@ class TelegramBot:
             #### ВОТ ТУТ ДОБАВИТЬ ДОБАВЛЕНИЕ В JSON ДОПОЛНИТЕЛЬНЫЕ ШТУКИ, ЧТОБЫ ЕСЛИ ФОТОК МЕНЬШЕ - ТО БЫЛО ОТКУДА ВЗЯТЬ ПРОМПТЫ
             if len(results) < 11:
                 for i in range(11 - len(results)):
-                    results[f'{self.current_command}_{len(results) + 1}'] = f'TEST+PROMPT'
+                    results[f'{self.current_command}_{len(results) + 1}.jpg'] = f'{config.COMMON_PROMPT}'
             
             #### СНАЧАЛА УЗНАТЬ ТЕКУЩУЮ ДЛИНУ СЛОВАРЯ И ЗАТЕМ ДОБИТЬ ЕГО ДО КОЛ-ВА НУЖНОГО
             
