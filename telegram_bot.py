@@ -97,8 +97,8 @@ class TelegramBot:
                 # update.message.reply_text(f'OpenAI вернул ответ')
 
             #### ВОТ ТУТ ДОБАВИТЬ ДОБАВЛЕНИЕ В JSON ДОПОЛНИТЕЛЬНЫЕ ШТУКИ, ЧТОБЫ ЕСЛИ ФОТОК МЕНЬШЕ - ТО БЫЛО ОТКУДА ВЗЯТЬ ПРОМПТЫ
-            if len(results) < 8:
-                for i in range(8 - len(results)):
+            if len(results) < 11:
+                for i in range(11 - len(results)):
                     results[f'{self.current_command}_{len(results) + 1}'] = f'TEST+PROMPT'
             
             #### СНАЧАЛА УЗНАТЬ ТЕКУЩУЮ ДЛИНУ СЛОВАРЯ И ЗАТЕМ ДОБИТЬ ЕГО ДО КОЛ-ВА НУЖНОГО
@@ -165,6 +165,7 @@ class TelegramBot:
         with open(image_path, "rb") as image_file:
             return base64.b64encode(image_file.read()).decode('utf-8')
     
+    # Здесь надо сделать ресет статусов в словаре
     def set_mission_status(self):
         for item in self.missionlist:
             self.current_status[item] = 'not started'
